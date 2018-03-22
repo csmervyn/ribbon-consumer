@@ -1,5 +1,6 @@
-package com.mervyn.controller;
+package com.mervyn.binsiness.controller;
 
+import com.mervyn.binsiness.service.IComputeService;
 import com.mervyn.common.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,10 @@ import java.util.Map;
 @RestController
 public class ConsumerController {
     @Autowired
-    private RestTemplate restTemplate;
+    private IComputeService computeService;
 
     @RequestMapping(value = "/add",method= RequestMethod.GET)
     public JsonResult<Integer> add(@RequestParam Integer augend, @RequestParam Integer addend) {
-        String url = "http://service-hi/compute/add?augend={augend}&addend={addend}";
-        Map<String, Integer> paramMap = new HashMap<>();
-        paramMap.put("augend",augend);
-        paramMap.put("addend",addend);
-        ResponseEntity<JsonResult>  responseEntity = restTemplate.getForEntity(url,JsonResult.class,paramMap);
-        return responseEntity.getBody();
+       return computeService.add(augend,addend);
     }
 }
